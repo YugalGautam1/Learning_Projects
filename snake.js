@@ -23,40 +23,6 @@ const handleGameOver= ()=> {
     alert("Game over!");
     location.reload();
 }
-const initGame = () => {
-if(gameOver) return handleGameOver();
-  let htmlMarup = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
-  if (snakeX == foodX && snakeY == foodY) {
-    changeFoodPosition();
-    SnakeBody.push([foodX, foodY]);
-    score++;
-    if(score>=highScore){
-        highScore =score;
-
-    }
-    console.log(highScore)
-    localStorage.setItem("high-score", highScore);
-    scoreElement.innerText = `Score: ${score}`;
-    highScoreElement.innerText = ` High Score: ${highScore}`;
-
-  }
-  for (let i = SnakeBody.length - 1; i > 0; i--) {
-    SnakeBody[i] = SnakeBody[i - 1];
-  }
-  SnakeBody[0] = [snakeX, snakeY];
-  snakeX += velocityX;
-  snakeY += velocityY;
-  if (snakeX <= 0 || snakeX > 30 || snakeY > 30 || snakeY <= 0) {
-    gameOver = true;
-  }
-  for (let i = 0; i < SnakeBody.length; i++) {
-    htmlMarup += `<div class="snakes" style="grid-area: ${SnakeBody[i][1]} / ${SnakeBody[i][0]}"></div>`;
-    if(i!==0 && SnakeBody[0][1]==SnakeBody[i][1]&& SnakeBody[0][0]==SnakeBody[i][0]){
-        gameOver=true;
-    }
-    }
-  playBoard.innerHTML = htmlMarup;
-};
 
 const changeDirection = (e) => {
   if (e.key == "ArrowUp" && velocityY != 1) {
@@ -75,6 +41,41 @@ const changeDirection = (e) => {
 
   initGame();
 };
+const initGame = () => {
+  if(gameOver) return handleGameOver();
+    let htmlMarup = `<div class="food" style="grid-area: ${foodY} / ${foodX}"></div>`;
+    if (snakeX == foodX && snakeY == foodY) {
+      changeFoodPosition();
+      SnakeBody.push([foodX, foodY]);
+      score++;
+      if(score>=highScore){
+          highScore =score;
+  
+      }
+      console.log(highScore)
+      localStorage.setItem("high-score", highScore);
+      scoreElement.innerText = `Score: ${score}`;
+      highScoreElement.innerText = ` High Score: ${highScore}`;
+  
+    }
+    for (let i = SnakeBody.length - 1; i > 0; i--) {
+      SnakeBody[i] = SnakeBody[i - 1];
+    }
+    SnakeBody[0] = [snakeX, snakeY];
+    snakeX += velocityX;
+    snakeY += velocityY;
+    if (snakeX <= 0 || snakeX > 30 || snakeY > 30 || snakeY <= 0) {
+      gameOver = true;
+    }
+    for (let i = 0; i < SnakeBody.length; i++) {
+      htmlMarup += `<div class="snakes" style="grid-area: ${SnakeBody[i][1]} / ${SnakeBody[i][0]}"></div>`;
+      if(i!==0 && SnakeBody[0][1]==SnakeBody[i][1]&& SnakeBody[0][0]==SnakeBody[i][0]){
+          gameOver=true;
+      }
+      }
+    playBoard.innerHTML = htmlMarup;
+  };
+  
 setIntervalId = setInterval(initGame, 125);
 changeFoodPosition();
 
